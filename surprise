@@ -1,0 +1,24 @@
+# Example using the Surprise library and collaborative filtering algorithm
+from surprise import Dataset
+from surprise import KNNBasic
+from surprise import get_dataset_dir
+
+# Load the movielens-100k dataset
+data = Dataset.load_builtin('ml-100k')
+
+# Create a collaborative filtering algorithm
+algo = KNNBasic()
+
+# Train the algorithm on the dataset
+trainset = data.build_full_trainset()
+algo.fit(trainset)
+
+# Get the top-N recommendations for a user
+user_id = str(196)
+top_n = 5
+recommendations = algo.get_top_n(trainset.ur[user_id], n=top_n)
+
+# Print the recommendations
+print("Top", top_n, "recommendations for user", user_id + ":")
+for movie_id, _ in recommendations:
+    print("Movie:", movie_id)
